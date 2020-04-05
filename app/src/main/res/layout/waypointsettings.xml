@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/mainHorizontalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="100sp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/mainVerticalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/gpsCoordinatesLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:text="@string/gpsCoordinatesLabel"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/coordinatesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/latitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start"
+                    android:text="@string/latitude"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/longitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="end"
+                    android:text="@string/longitude"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/visibilityLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:text="@string/visibilityLabel"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/visibilitySelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/visibilityPublic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/visibilityPublic" />
+
+                <RadioButton
+                    android:id="@+id/visibilityPrivate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visibilityPrivate"
+                    tools:layout_editor_absoluteX="123dp" />
+
+                <RadioButton
+                    android:id="@+id/visibilityHidden"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visibilityHidden" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/editingLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:singleLine="false"
+                android:text="@string/editingLabel"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/editingSelection"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/editingSolo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/editingSolo" />
+
+                <RadioButton
+                    android:id="@+id/editingShared"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/editingShared"
+
+                    tools:layout_editor_absoluteX="123dp" />
+
+                <RadioButton
+                    android:id="@+id/editingWild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/editingWild"
+
+                    tools:layout_editor_absoluteX="182dp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/playlistsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:text="@string/playlistsLabel"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ScrollView
+                android:id="@+id/playlistsScrollBar"
+                android:layout_width="match_parent"
+                android:layout_height="163dp">
+
+                <LinearLayout
+                    android:id="@+id/playlistsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/playlist_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlist1" />
+
+                    <Button
+                        android:id="@+id/playlist_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlist2" />
+
+                    <Button
+                        android:id="@+id/playlist_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlist3" />
+
+                    <Button
+                        android:id="@+id/playlist_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlist4" />
+
+                </LinearLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/genreLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:text="@string/genreLabel"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:id="@+id/genreTableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:id="@+id/genreRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR1C1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR1C1"
+                        android:textOff="@string/genreR1C1"
+                        android:textOn="@string/genreR1C1"
+                        android:textSize="10sp" />
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR1C2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR1C2"
+                        android:textOff="@string/genreR1C2"
+                        android:textSize="10sp" />
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR1C3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR1C3"
+                        android:textOff="@string/genreR1C3"
+                        android:textOn="@string/genreR1C3"
+                        android:textSize="10sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/genreRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR2C1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR2C1"
+                        android:textOff="@string/genreR2C1"
+                        android:textOn="@string/genreR2C1"
+                        android:textSize="10sp" />
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR2C2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR2C2"
+                        android:textOff="@string/genreR2C2"
+                        android:textOn="@string/genreR2C2"
+                        android:textSize="10sp" />
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR2C3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textOff="@string/genreR2C3"
+                        android:textOn="@string/genreR2C3"
+                        android:textSize="10sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/genreRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR3C1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR3C1"
+                        android:textOff="@string/genreR3C1"
+                        android:textOn="@string/genreR3C1"
+                        android:textSize="10sp" />
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR3C2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR3C2"
+                        android:textOff="@string/genreR3C2"
+                        android:textOn="@string/genreR3C2"
+                        android:textSize="10sp" />
+
+                    <ToggleButton
+                        android:id="@+id/genreButtonR3C3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/genreR3C3"
+                        android:textOff="@string/genreR3C3"
+                        android:textOn="@string/genreR3C3"
+                        android:textSize="10sp" />
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dateCreatedLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="@string/dateCreatedLabel"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/dateCreated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="end"
+                    android:text="@string/dateCreated"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

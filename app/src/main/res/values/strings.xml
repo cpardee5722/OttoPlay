@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">OttoPlay</string>
+
+
+
+    <!--Waypoint Settings Strings -->
+    <string name="gpsCoordinatesLabel">GPS Coordinates</string>
+    <string name="latitude"></string>
+    <string name="longitude"></string>
+    <string name="visibilityLabel">Visibility</string>
+        <string name="visibilityPublic">Public</string>
+        <string name="visibilityPrivate">Private</string>
+        <string name="visibilityHidden">Hidden</string>
+    <string name="editingLabel">Editing</string>
+        <string name="editingSolo">Solo</string>
+        <string name="editingShared">Shared</string>
+        <string name="editingWild">Wild</string>
+    <string name="playlistsLabel">Playlists</string>
+        <string name="playlist1">Playlist 1</string>
+        <string name="playlist2">Playlist 2</string>
+        <string name="playlist3">Playlist 3</string>
+        <string name="playlist4">Playlist 4</string>
+    <string name="genreLabel">Genres</string>
+        <string name="genreR1C1">Country</string>
+        <string name="genreR1C2">Rap</string>
+        <string name="genreR1C3">Indie</string>
+        <string name="genreR2C1">Pop</string>
+        <string name="genreR2C2">Classic</string>
+        <string name="genreR2C3">Techno</string>
+        <string name="genreR3C1">Jazz</string>
+        <string name="genreR3C2">Metal</string>
+        <string name="genreR3C3">Other</string>
+    <string name="dateCreatedLabel">Creation Date:</string>
+        <string name="dateCreated">March 24 2020</string>
+    
+</resources>
