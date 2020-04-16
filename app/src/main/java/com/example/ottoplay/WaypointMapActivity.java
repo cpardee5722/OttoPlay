@@ -10,12 +10,15 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -38,14 +41,18 @@ import java.util.HashSet;
 public class WaypointMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    MyApplication app;
+    private User currentUser;
+
     private LocationListener locationListener;
 
     private Marker userMarker;
     private Circle userCircle;
     private boolean markersInitialized = false;
 
-    private HashMap<Marker, Pair<Circle, Waypoint>> staticWaypoints;
-    private HashMap<Waypoint.Genre, ArrayList<Marker>> waypointsByGenre;
+    private HashMap<Marker, Pair<Circle, Waypoint>> waypointMarkers;
+    private HashMap<Waypoint.Genre, ArrayList<Marker>> staticWaypointsByGenre;
     private HashSet<Waypoint.Genre> currentGenreFilters;
 
     private ArrayList<ArrayList<String>> wpResults;
@@ -60,6 +67,11 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waypoint_map);
+
+        app = (MyApplication) getApplication();
+        currentUser = app.getUser();
+        dwp = currentUser.getDynamicWaypoint();
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.g_map);
@@ -97,22 +109,33 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
         };
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
             @Override
             public boolean onMarkerClick(Marker marker) {
                 try {
                     //if (userMarker == marker) return false;
 
-                    Waypoint wp = staticWaypoints.get(marker).second;
+                    Waypoint wp = waypointMarkers.get(marker).second;
                    // System.out.println(wp.getWaypointName());
                     LatLng l1 = userMarker.getPosition();
                     LatLng l2 = marker.getPosition();
                     float[] res = new float[1];
                     Location.distanceBetween(l1.latitude, l1.longitude, l2.latitude, l2.longitude, res);
+                    if ((wp instanceof StaticWaypoint && res[0] <= 20.0) || (wp instanceof DynamicWaypoint && res[0] <= 10.0)) {
+                        Bundle bundle = new Bundle();
+                        bundle.putBinder("obj_val", new BinderObjectWrapper(wp));
+                        Intent intent = new Intent(WaypointMapActivity.this, WaypointPlaylistsFromMapActivity.class);
+                        WaypointMapActivity.this.startActivity(intent.putExtras(bundle));
+                    }
+                    else {
+                        Toast.makeText(WaypointMapActivity.this, "Waypoint not in range.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-                    Bundle bundle = new Bundle();
+                    /*Bundle bundle = new Bundle();
                     bundle.putBinder("obj_val", new BinderObjectWrapper(wp));
                     Intent intent = new Intent(WaypointMapActivity.this, WaypointPlaylistsFromMapActivity.class);
-                    WaypointMapActivity.this.startActivity(intent.putExtras(bundle));
+                    WaypointMapActivity.this.startActivity(intent.putExtras(bundle));*/
                     //System.out.println(res[0]);
                 }
                 catch (Exception e) {
@@ -133,12 +156,11 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }
 
-        dwp = new DynamicWaypoint(19);
-        dwp.setOwnerUserId(19); //TODO REMOVE THIS
+        //dwp = new DynamicWaypoint(19);
+        //dwp.setOwnerUserId(19); //TODO REMOVE THIS
 
-        staticWaypoints = new HashMap<>();
-        //staticWaypoints.put(userMarker, new Pair<Circle, Waypoint>(userCircle,dwp));
-        waypointsByGenre = new HashMap<>();
+        waypointMarkers = new HashMap<>();
+        staticWaypointsByGenre = new HashMap<>();
         currentGenreFilters = new HashSet<>();
         loadAndDisplayStaticWaypoints();
 
@@ -163,10 +185,11 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
     private void loadAndDisplayStaticWaypoints() {
         try {
             HashMap<Integer, ArrayList<Waypoint.Genre>> waypointGenresTable = new HashMap<>();
-            staticWaypoints.clear();
-            waypointsByGenre.clear();
+            waypointMarkers.clear();
+            waypointMarkers.put(userMarker, new Pair<Circle, Waypoint>(userCircle,dwp));
+            staticWaypointsByGenre.clear();
             for (Waypoint.Genre g : Waypoint.Genre.values()) {
-                waypointsByGenre.put(g, new ArrayList<Marker>());
+                staticWaypointsByGenre.put(g, new ArrayList<Marker>());
             }
 
             wpResults = new ArrayList<ArrayList<String>>();
@@ -194,8 +217,6 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                 Waypoint wp = new StaticWaypoint(Integer.parseInt(wpResults.get(i).get(0)), Integer.parseInt(wpResults.get(i).get(1)), wpResults.get(i).get(2),
                         Waypoint.EditingSetting.valueOf(wpResults.get(i).get(3)), Waypoint.VisibilitySetting.valueOf(wpResults.get(i).get(4)), wpResults.get(i).get(5));
 
-                System.out.println("loc " + wp.getLocation());
-
                 String[] coords = wp.getLocation().split(" ");
                 if (coords.length == 2 && wp.getVisSetting() == Waypoint.VisibilitySetting.PUBLIC) {
                     //System.out.println("id = " + wp.getGlobalId());
@@ -207,10 +228,10 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                     c.setStrokeColor(Color.RED);
                     c.setStrokeWidth(4);
 
-                    staticWaypoints.put(m, Pair.create(c, wp));
+                    waypointMarkers.put(m, Pair.create(c, wp));
                     for (Waypoint.Genre g : waypointGenresTable.get(wp.getGlobalId())) {
-                        if (waypointsByGenre.containsKey(g)) {
-                            waypointsByGenre.get(g).add(m);
+                        if (staticWaypointsByGenre.containsKey(g)) {
+                            staticWaypointsByGenre.get(g).add(m);
                         }
                     }
                 }
@@ -264,7 +285,7 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
         //userMarker.setTitle("jgperra");
 
         userCircle = mMap.addCircle(new CircleOptions().center(l));
-        userCircle.setRadius(20);
+        userCircle.setRadius(10);
         userCircle.setStrokeColor(Color.GREEN);
         userCircle.setStrokeWidth(4);
     }
@@ -326,20 +347,20 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void filterWaypoints() {
-        for (Waypoint.Genre g : waypointsByGenre.keySet()) {
+        for (Waypoint.Genre g : staticWaypointsByGenre.keySet()) {
             if (!currentGenreFilters.contains(g)) {
-                for (Marker m : waypointsByGenre.get(g)) {
+                for (Marker m : staticWaypointsByGenre.get(g)) {
                     m.setVisible(false);
-                    staticWaypoints.get(m).first.setVisible(false);
+                    waypointMarkers.get(m).first.setVisible(false);
                 }
             }
         }
 
-        for (Waypoint.Genre g : waypointsByGenre.keySet()) {
+        for (Waypoint.Genre g : staticWaypointsByGenre.keySet()) {
             if (currentGenreFilters.contains(g) || currentGenreFilters.isEmpty()) {
-                for (Marker m : waypointsByGenre.get(g)) {
+                for (Marker m : staticWaypointsByGenre.get(g)) {
                     m.setVisible(true);
-                    staticWaypoints.get(m).first.setVisible(true);
+                    waypointMarkers.get(m).first.setVisible(true);
                 }
             }
         }

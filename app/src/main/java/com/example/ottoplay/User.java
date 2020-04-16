@@ -22,6 +22,14 @@ public class User {
         this.userId = userId;
     }
 
+    public DynamicWaypoint getDynamicWaypoint() {
+        return dynamicWp;
+    }
+
+    public void setDynamicWaypoint(int wpId, String wpName) {
+        dynamicWp = new DynamicWaypoint(wpId, userId, wpName);
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

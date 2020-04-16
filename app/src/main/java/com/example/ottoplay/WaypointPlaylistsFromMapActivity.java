@@ -1,5 +1,6 @@
 package com.example.ottoplay;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
@@ -9,21 +10,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
+    MyApplication app;
+    private User currentUser;
 
     private HashMap<String, Pair<Integer,String>> playlistIds;
     private ArrayList<ArrayList<String>> queryResults;
     private Waypoint wp;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waypoint_playlists_from_map);
+
+        app = (MyApplication) getApplication();
+        currentUser = app.getUser();
 
         Object obj = ((BinderObjectWrapper)getIntent().getExtras().getBinder("obj_val")).getData();
         wp = (Waypoint) obj;
@@ -55,7 +63,9 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO
                 //do not enable this button if this waypoint belongs to the current user
-                addToPlaylistsButton.setEnabled(true);
+                if (wp.getOwnerUserId() != currentUser.getUserId()) {
+                    addToPlaylistsButton.setEnabled(true);
+                }
                 String selected = (String) playlists.getItemAtPosition(position);
                 addToPlaylistsButton.setTag((Object) selected);
                 playlists.setSelector(R.color.pressed_color);
@@ -93,9 +103,7 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         @Override
         public void run() {
             DatabaseConnector dbc = new DatabaseConnector();
-            //TODO
-            //user userId from current user rather than hardcoded value
-            queryResults = dbc.requestData("17:" + Integer.toString(playlistData.first) + "," + wp.getOwnerUserId() + "," + "19");
+            queryResults = dbc.requestData("17:" + Integer.toString(playlistData.first) + "," + wp.getOwnerUserId() + "," + Integer.toString(currentUser.getUserId()));
         }
     }
 
