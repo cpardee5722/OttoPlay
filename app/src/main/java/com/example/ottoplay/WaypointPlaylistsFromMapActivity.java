@@ -49,7 +49,6 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         playlistIds = new HashMap<>();
         ArrayList<String> playlistList = getWaypointPlaylists(wp);
 
-
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(wp.getWaypointName());
 
@@ -223,6 +222,7 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         for (int i = 0; i < queryResults.size(); i++) {
             playlistIds.put(queryResults.get(i).get(1), new Pair<Integer,String>(Integer.parseInt(queryResults.get(i).get(0)), queryResults.get(i).get(2)));
             playlistNames.add(queryResults.get(i).get(1));
+            wp.addPlaylist(new Playlist(queryResults.get(i).get(2), Integer.parseInt(queryResults.get(i).get(0)), queryResults.get(i).get(1)));
         }
 
         queryResults.clear();
@@ -272,8 +272,8 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
     }
 
     private boolean canUserEdit() {
-        if (currentUser.getUserId() == wp.getOwnerUserId()) return true;
         if (wp instanceof DynamicWaypoint) return false;
+        if (currentUser.getUserId() == wp.getOwnerUserId()) return true;
 
         Thread t = new Thread(new CanUserEditThread());
         t.start();

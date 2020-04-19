@@ -173,7 +173,7 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
         staticWaypointsByGenre = new HashMap<>();
         currentGenreFilters = new HashSet<>();
         loadAndDisplayStaticWaypoints();
-        //locationUpdate();
+        locationUpdate();
 
         //seattle coordinates
         //LatLng seattle = new LatLng(47.6062095, -122.3320708);
