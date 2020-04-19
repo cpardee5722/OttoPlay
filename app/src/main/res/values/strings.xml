@@ -4,7 +4,7 @@
 
 
     <!--Waypoint Settings Strings -->
-    <string name="gpsCoordinatesLabel">GPS Coordinates</string>
+    <!--<string name="gpsCoordinatesLabel">GPS Coordinates</string>
     <string name="latitude"></string>
     <string name="longitude"></string>
     <string name="visibilityLabel">Visibility</string>
@@ -31,6 +31,54 @@
         <string name="genreR3C2">Metal</string>
         <string name="genreR3C3">Other</string>
     <string name="dateCreatedLabel">Creation Date:</string>
-        <string name="dateCreated">March 24 2020</string>
+        <string name="dateCreated">March 24 2020</string>-->
+
+    <!-- Waypoint Settings Strings  -->
+    <string name="waypointName">Waypoint Name</string>
+    <string name="gpsCoordinatesLabel">GPS Coordinates</string>
+    <string name="latitude"/>
+    <string name="longitude"/>
+    <string name="visibilityLabel">Visibility</string>
+    <string name="visibilityPublic">Public</string>
+    <string name="visibilityPrivate">Private</string>
+    <string name="visibilityHidden">Hidden</string>
+    <string name="editingLabel">Editing</string>
+    <string name="editingSolo">Solo</string>
+    <string name="editingShared">Shared</string>
+    <string name="editingWild">Wild</string>
+    <string name="playlistsLabel">Playlists</string>
+    <string name="playlist1">Playlist 1</string>
+    <string name="playlist2">Playlist 2</string>
+    <string name="playlist3">Playlist 3</string>
+    <string name="playlist4">Playlist 4</string>
+    <string name="playlist5">Playlist 5</string>
+    <string name="playlist6">Playlist 6</string>
+    <string name="playlist7">Playlist 7</string>
+    <string name="playlist8">Playlist 8</string>
+    <string name="playlist9">Playlist 9</string>
+    <string name="playlist10">Playlist 10</string>
+    <string name="playlist11">Playlist 11</string>
+    <string name="playlist12">Playlist 12</string>
+    <string name="playlist13">Playlist 13</string>
+    <string name="playlist14">Playlist 14</string>
+    <string name="playlist15">Playlist 15</string>
+    <string name="playlist16">Playlist 16</string>
+    <string name="playlist17">Playlist 17</string>
+    <string name="playlist18">Playlist 18</string>
+    <string name="playlist19">Playlist 19</string>
+    <string name="playlist20">Playlist 20</string>
+    <string name="Addplaylist">Add Playlist</string>
+    <string name="genreLabel">Genres</string>
+    <string name="genre1">HIPHOP</string>
+    <string name="genre2">POP</string>
+    <string name="genre3">JAZZ</string>
+    <string name="genre4">BLUES</string>
+    <string name="genre5">COUNTRY</string>
+    <string name="genre6">ROCK</string>
+    <string name="genre7">METAL</string>
+    <string name="genre8">EDM</string>
+    <string name="genre9">Other</string>
+    <string name="dateCreatedLabel">Creation Date</string>
+    <string name="dateCreated">March 24 2020</string>
     
 </resources>

@@ -12,9 +12,13 @@ public class Playlist {
     //ID of owner of playlist.
     private int ownerId;
 
-    Playlist(String token, int id) {
+    //Name of playlist
+    private String playlistName;
+
+    Playlist(String token, int id, String name) {
         this.spotifyToken = token;
         this.ownerId = id;
+        this.playlistName = name;
     }
 
     //Load songs from Spotify API.
@@ -40,10 +44,13 @@ public class Playlist {
         return ownerId;
     }
 
+    //Get the name of of the playlist.
+    public String getPlaylistName() {
+        return playlistName;
+    }
+
     //Set the id of the owner of the playlist.
     public void setOwnerId(int id) {
         this.ownerId = id;
     }
 }
-
-

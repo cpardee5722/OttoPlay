@@ -1,5 +1,6 @@
 package com.example.ottoplay;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
@@ -9,12 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
     MyApplication app;
@@ -23,6 +26,8 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
     private HashMap<String, Pair<Integer,String>> playlistIds;
     private ArrayList<ArrayList<String>> queryResults;
     private Waypoint wp;
+
+    private ReentrantLock connectorLock;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -33,8 +38,10 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         app = (MyApplication) getApplication();
         currentUser = app.getUser();
 
-        Object obj = ((BinderObjectWrapper)getIntent().getExtras().getBinder("obj_val")).getData();
-        wp = (Waypoint) obj;
+        //Object obj = ((BinderObjectWrapper)getIntent().getExtras().getBinder("obj_val")).getData();
+        //wp = (StaticWaypoint) obj;
+        wp = app.getWaypoint();
+        connectorLock = app.getLock();
 
         queryResults = new ArrayList<>();
         String ownerUsername = getWaypointOwnerUsername(wp);
@@ -49,8 +56,14 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         TextView username = (TextView) findViewById(R.id.username);
         username.setText(ownerUsername);
 
+        Button editWaypointButton = (Button) findViewById(R.id.editWaypointButton);
+        editWaypointButton.setEnabled(canUserEdit());
+
         final Button addToPlaylistsButton = (Button) findViewById(R.id.addPlaylistButton);
         addToPlaylistsButton.setEnabled(false);
+
+        final Button addFriendButton = (Button) findViewById(R.id.addFriend);
+        if (wp.getOwnerUserId() == currentUser.getUserId()) addFriendButton.setEnabled(false);
 
         final ListView playlists = (ListView) findViewById(R.id.playlists);
 
@@ -80,16 +93,105 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
                 addWaypointPlaylistToMyPlaylists(playlistIds.get(selected));
             }
         });
+
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addFriend();
+            }
+        });
+
+        editWaypointButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                WaypointPlaylistsFromMapActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(WaypointPlaylistsFromMapActivity.this, waypointSettingsActivity.class);
+                        WaypointPlaylistsFromMapActivity.this.startActivity(intent);
+                    }
+                });
+            }
+        });
     }
 
-    private void addWaypointPlaylistToMyPlaylists(Pair<Integer, String> playlistData) {
+    private void addFriend() {
         try {
-            Thread t = new Thread(new addWaypointPlaylistToSharedPlaylistsThread(playlistData));
+            Thread t = new Thread(new CheckFriendThread());
             t.start();
             t.join();
+
+            for (int i = 0; i < queryResults.size(); i++) {
+                if (Integer.parseInt(queryResults.get(i).get(0)) == wp.getOwnerUserId()) {
+                    Toast.makeText(WaypointPlaylistsFromMapActivity.this, "Friend already exists.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            queryResults.clear();
+
+            t = new Thread(new AddFriendThread());
+            t.start();
+            t.join();
+            queryResults.clear();
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+
+        Toast.makeText(WaypointPlaylistsFromMapActivity.this, "Friend added.",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    class CheckFriendThread implements Runnable {
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            queryResults = dbc.requestData("30:" + Integer.toString(currentUser.getUserId()));
+        }
+    }
+
+    class AddFriendThread implements Runnable {
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            queryResults = dbc.requestData("31:" + Integer.toString(currentUser.getUserId()) + "," + Integer.toString(wp.getOwnerUserId()));
+        }
+    }
+
+
+
+    private void addWaypointPlaylistToMyPlaylists(Pair<Integer, String> playlistData) {
+        try {
+            Thread t = new Thread(new CheckPlaylistAlreadyAddedThread());
+            t.start();
+            t.join();
+
+            for (int i = 0; i < queryResults.size(); i++) {
+                if (playlistData.first == Integer.parseInt(queryResults.get(i).get(0))) {
+                    Toast.makeText(WaypointPlaylistsFromMapActivity.this, "Playlist already added.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            queryResults.clear();
+
+            t = new Thread(new addWaypointPlaylistToSharedPlaylistsThread(playlistData));
+            t.start();
+            t.join();
+            queryResults.clear();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(WaypointPlaylistsFromMapActivity.this, "Playlist Added.",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    class CheckPlaylistAlreadyAddedThread implements Runnable {
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            queryResults = dbc.requestData("11:" + Integer.toString(currentUser.getUserId()));
         }
     }
 
@@ -102,12 +204,10 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            DatabaseConnector dbc = new DatabaseConnector();
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
             queryResults = dbc.requestData("17:" + Integer.toString(playlistData.first) + "," + wp.getOwnerUserId() + "," + Integer.toString(currentUser.getUserId()));
         }
     }
-
-
 
     public ArrayList<String> getWaypointPlaylists(Waypoint wp) {
         ArrayList<String> playlistNames = new ArrayList<>();
@@ -138,7 +238,7 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            DatabaseConnector dbc = new DatabaseConnector();
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
             queryResults = dbc.requestData("9:" + Integer.toString(wpId));
         }
     }
@@ -166,8 +266,38 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            DatabaseConnector dbc = new DatabaseConnector();
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
             queryResults = dbc.requestData("3:" + Integer.toString(userId));
+        }
+    }
+
+    private boolean canUserEdit() {
+        if (currentUser.getUserId() == wp.getOwnerUserId()) return true;
+        if (wp instanceof DynamicWaypoint) return false;
+
+        Thread t = new Thread(new CanUserEditThread());
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < queryResults.size(); i++) {
+            if (currentUser.getUsername().compareTo(queryResults.get(i).get(0)) == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    class CanUserEditThread implements Runnable {
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            queryResults = dbc.requestData("23:" + Integer.toString(wp.getOwnerUserId()));
         }
     }
 }

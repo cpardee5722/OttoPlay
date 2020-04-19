@@ -1,11 +1,13 @@
 package com.example.ottoplay;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class User {
     private String username;
     private int userId;
     private ArrayList<Integer> friendList;
+    private HashSet<Integer> friendSet;
     private ArrayList<Playlist> syncedPlaylists;
     private ArrayList<Playlist> sharedPlaylist;
     private DynamicWaypoint dynamicWp;
@@ -28,6 +30,11 @@ public class User {
 
     public void setDynamicWaypoint(int wpId, String wpName) {
         dynamicWp = new DynamicWaypoint(wpId, userId, wpName);
+        friendSet = new HashSet<>();
+        friendList = new ArrayList<>();
+        syncedPlaylists = new ArrayList<>();
+        sharedPlaylist = new ArrayList<>();
+        staticWpList = new ArrayList<>();
     }
 
     public void setUsername(String username) {
@@ -47,15 +54,17 @@ public class User {
     }
 
     public void addToFriendList(int friendId) {
+        friendSet.add(friendId);
         friendList.add(friendId);
     }
 
     public void removeFriend(int friendId) {
+        friendSet.remove(friendId);
         friendList.remove(friendId);
     }
 
     public boolean isFriend(int userId) {
-        return friendList.contains(userId);
+        return friendSet.contains(userId);
     }
 
     public void addToSharedPlaylist(Playlist playlist) {

@@ -1,5 +1,6 @@
 package com.example.ottoplay;
 
+import java.security.CryptoPrimitive;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -16,12 +17,17 @@ public class StaticWaypoint extends Waypoint {
         this.editSetting = es;
         this.visSetting = vs;
         this.location = location;
+
+        editSet = new HashSet<>();
+        creationDate = new Date();
     }
 
     StaticWaypoint() {
         editSetting = EditingSetting.SOLO;
         visSetting = VisibilitySetting.HIDDEN;
-        editSet.add(ownerUserId);
+        //editSet.add(ownerUserId);
+        editSet = new HashSet<>();
+        creationDate = new Date();
     }
 
     public void setEditSetting(EditingSetting es) {
@@ -51,4 +57,5 @@ public class StaticWaypoint extends Waypoint {
     public void removeEditor(int userId) {
         editSet.remove(userId);
     }
+
 }

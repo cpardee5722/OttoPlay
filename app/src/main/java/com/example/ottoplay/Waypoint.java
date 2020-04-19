@@ -52,7 +52,10 @@ public class Waypoint {
     //image of area waypoint is in
     protected Bitmap image;
 
-    Waypoint(){};
+    Waypoint(){
+        playlists = new ArrayList<>();
+        genres = new ArrayList<>();
+    };
 
     public String getWaypointName() {
         return waypointName;

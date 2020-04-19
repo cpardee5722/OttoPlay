@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".waypointSettingsActivity">
 
     <LinearLayout
         android:id="@+id/mainHorizontalLayout"
@@ -26,15 +26,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/gpsCoordinatesLabel"
+            <EditText
+                android:id="@+id/waypointNameLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:gravity="center_horizontal"
-                android:text="@string/gpsCoordinatesLabel"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:hint="@string/waypointName"
+                android:inputType="textPersonName"
+                android:autofillHints=""
+                android:text=""
+                android:gravity="center"/>
 
             <LinearLayout
                 android:id="@+id/coordinatesLayout"
@@ -46,8 +47,9 @@
                     android:id="@+id/latitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:ems="10"
-                    android:gravity="start"
+                    android:gravity="center"
                     android:text="@string/latitude"
                     android:textSize="18sp" />
 
@@ -55,8 +57,9 @@
                     android:id="@+id/longitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:ems="10"
-                    android:gravity="end"
                     android:text="@string/longitude"
                     android:textSize="18sp" />
 
@@ -162,35 +165,178 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/playlist_1"
+                        android:id="@+id/playlist1"
+                        android:onClick="buttonPlaylistClicked"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="@string/playlist1" />
 
                     <Button
-                        android:id="@+id/playlist_2"
+                        android:id="@+id/playlist2"
+                        android:onClick="buttonPlaylistClicked"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="@string/playlist2" />
 
                     <Button
-                        android:id="@+id/playlist_3"
+                        android:id="@+id/playlist3"
+                        android:onClick="buttonPlaylistClicked"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="@string/playlist3" />
 
                     <Button
-                        android:id="@+id/playlist_4"
+                        android:id="@+id/playlist4"
+                        android:onClick="buttonPlaylistClicked"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="@string/playlist4" />
+
+                    <Button
+                        android:id="@+id/playlist5"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist5" />
+
+                    <Button
+                        android:id="@+id/playlist6"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist6" />
+
+                    <Button
+                        android:id="@+id/playlist7"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist7" />
+
+                    <Button
+                        android:id="@+id/playlist8"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist8" />
+
+                    <Button
+                        android:id="@+id/playlist9"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist9" />
+
+                    <Button
+                        android:id="@+id/playlist10"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist10" />
+
+                    <Button
+                        android:id="@+id/playlist11"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist11" />
+
+                    <Button
+                        android:id="@+id/playlist12"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist12" />
+
+                    <Button
+                        android:id="@+id/playlist13"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist13" />
+
+                    <Button
+                        android:id="@+id/playlist14"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist14" />
+
+                    <Button
+                        android:id="@+id/playlist15"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist15" />
+
+                    <Button
+                        android:id="@+id/playlist16"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist16" />
+
+                    <Button
+                        android:id="@+id/playlist17"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist17" />
+
+                    <Button
+                        android:id="@+id/playlist18"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist18" />
+
+                    <Button
+                        android:id="@+id/playlist19"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist19" />
+
+                    <Button
+                        android:id="@+id/playlist20"
+                        android:onClick="buttonPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="@string/playlist20" />
+
+                    <Button
+                        android:id="@+id/addPlaylist"
+                        android:onClick="buttonAddPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Addplaylist" />
 
                 </LinearLayout>
             </ScrollView>
 
             <TextView
                 android:id="@+id/genreLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center_horizontal"
@@ -209,33 +355,37 @@
                     android:layout_height="match_parent">
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR1C1"
+                        android:id="@+id/genre1"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR1C1"
-                        android:textOff="@string/genreR1C1"
-                        android:textOn="@string/genreR1C1"
-                        android:textSize="10sp" />
+                        android:text="@string/genre1"
+                        android:textOff="@string/genre1"
+                        android:textOn="@string/genre1"
+                        android:textSize="12sp" />
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR1C2"
+                        android:id="@+id/genre2"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR1C2"
-                        android:textOff="@string/genreR1C2"
-                        android:textSize="10sp" />
+                        android:text="@string/genre2"
+                        android:textOff="@string/genre2"
+                        android:textOn="@string/genre2"
+                        android:textSize="12sp" />
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR1C3"
+                        android:id="@+id/genre3"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR1C3"
-                        android:textOff="@string/genreR1C3"
-                        android:textOn="@string/genreR1C3"
-                        android:textSize="10sp" />
+                        android:text="@string/genre3"
+                        android:textOff="@string/genre3"
+                        android:textOn="@string/genre3"
+                        android:textSize="12sp" />
 
                 </TableRow>
 
@@ -245,33 +395,36 @@
                     android:layout_height="wrap_content">
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR2C1"
+                        android:id="@+id/genre4"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR2C1"
-                        android:textOff="@string/genreR2C1"
-                        android:textOn="@string/genreR2C1"
-                        android:textSize="10sp" />
+                        android:text="@string/genre4"
+                        android:textOff="@string/genre4"
+                        android:textOn="@string/genre4"
+                        android:textSize="12sp" />
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR2C2"
+                        android:id="@+id/genre5"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR2C2"
-                        android:textOff="@string/genreR2C2"
-                        android:textOn="@string/genreR2C2"
-                        android:textSize="10sp" />
+                        android:text="@string/genre5"
+                        android:textOff="@string/genre5"
+                        android:textOn="@string/genre5"
+                        android:textSize="12sp" />
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR2C3"
+                        android:id="@+id/genre6"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textOff="@string/genreR2C3"
-                        android:textOn="@string/genreR2C3"
-                        android:textSize="10sp" />
+                        android:textOff="@string/genre6"
+                        android:textOn="@string/genre6"
+                        android:textSize="12sp" />
                 </TableRow>
 
                 <TableRow
@@ -280,34 +433,37 @@
                     android:layout_height="wrap_content">
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR3C1"
+                        android:id="@+id/genre7"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR3C1"
-                        android:textOff="@string/genreR3C1"
-                        android:textOn="@string/genreR3C1"
-                        android:textSize="10sp" />
+                        android:text="@string/genre7"
+                        android:textOff="@string/genre7"
+                        android:textOn="@string/genre7"
+                        android:textSize="12sp" />
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR3C2"
+                        android:id="@+id/genre8"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR3C2"
-                        android:textOff="@string/genreR3C2"
-                        android:textOn="@string/genreR3C2"
-                        android:textSize="10sp" />
+                        android:text="@string/genre8"
+                        android:textOff="@string/genre8"
+                        android:textOn="@string/genre8"
+                        android:textSize="12sp" />
 
                     <ToggleButton
-                        android:id="@+id/genreButtonR3C3"
+                        android:id="@+id/genre9"
+                        android:onClick="buttonGenreClicked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genreR3C3"
-                        android:textOff="@string/genreR3C3"
-                        android:textOn="@string/genreR3C3"
-                        android:textSize="10sp" />
+                        android:text="@string/genre9"
+                        android:textOff="@string/genre9"
+                        android:textOn="@string/genre9"
+                        android:textSize="12sp" />
                 </TableRow>
 
             </TableLayout>
@@ -321,17 +477,9 @@
                     android:id="@+id/dateCreatedLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:text="@string/dateCreatedLabel"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/dateCreated"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:gravity="end"
-                    android:text="@string/dateCreated"
                     android:textSize="18sp" />
 
             </LinearLayout>
