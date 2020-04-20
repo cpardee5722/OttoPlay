@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 public class DatabaseConnector {
     private int port;
     private String hostName;
@@ -49,6 +50,7 @@ public class DatabaseConnector {
 
         try {
             if (lock != null) lock.lock();
+
             //make connection and get output stream
             socket = new Socket(hostName, port);
             OutputStream out = socket.getOutputStream();
@@ -70,6 +72,7 @@ public class DatabaseConnector {
             if (lock != null) lock.unlock();
 
             if (count > 0) results = processQueryResult(queryResult);
+
         }
         catch (UnknownHostException e) {
             e.printStackTrace();
