@@ -1,16 +1,14 @@
 //Maps Activity Class
 
-package com.example.ottoplay;
+package com.example.ottoplay.WaypointMap;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,7 +18,6 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -30,6 +27,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.ottoplay.ClassDiagrams.DynamicWaypoint;
+import com.example.ottoplay.ClassDiagrams.StaticWaypoint;
+import com.example.ottoplay.ClassDiagrams.User;
+import com.example.ottoplay.ClassDiagrams.Waypoint;
+import com.example.ottoplay.DatabaseConnector;
+import com.example.ottoplay.MyApplication;
+import com.example.ottoplay.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

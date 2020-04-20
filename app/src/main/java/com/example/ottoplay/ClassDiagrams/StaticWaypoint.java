@@ -1,6 +1,7 @@
-package com.example.ottoplay;
+package com.example.ottoplay.ClassDiagrams;
 
-import java.security.CryptoPrimitive;
+import com.example.ottoplay.ClassDiagrams.Waypoint;
+
 import java.util.Date;
 import java.util.HashSet;
 
@@ -10,7 +11,7 @@ public class StaticWaypoint extends Waypoint {
     //set of user Ids that can edit this waypoint
     private HashSet<Integer> editSet;
 
-    StaticWaypoint(int wpId, int ownerId, String wpName, EditingSetting es, VisibilitySetting vs, String location) {
+    public StaticWaypoint(int wpId, int ownerId, String wpName, EditingSetting es, VisibilitySetting vs, String location) {
         this.globalId = wpId;
         this.ownerUserId = ownerId;
         this.waypointName = wpName;
@@ -22,7 +23,7 @@ public class StaticWaypoint extends Waypoint {
         creationDate = new Date();
     }
 
-    StaticWaypoint() {
+    public StaticWaypoint() {
         editSetting = EditingSetting.SOLO;
         visSetting = VisibilitySetting.HIDDEN;
         //editSet.add(ownerUserId);

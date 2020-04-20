@@ -1,6 +1,11 @@
 package com.example.ottoplay;
 
 import android.app.Application;
+
+import com.example.ottoplay.ClassDiagrams.Playlist;
+import com.example.ottoplay.ClassDiagrams.User;
+import com.example.ottoplay.ClassDiagrams.Waypoint;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MyApplication extends Application {

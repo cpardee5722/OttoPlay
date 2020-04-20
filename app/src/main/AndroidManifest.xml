@@ -15,10 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="com.example.ottoplay.MyApplication">
-        <activity android:name=".WaypointPlaylistsFromMapActivity"></activity>
-        <activity android:name=".waypointSettingsActivity"></activity>
-        <activity android:name=".PlaylistContentsActivity"></activity>
-        <activity android:name=".WaypointMapTestingSetupActivity"></activity>
+        <activity android:name=".WaypointMap.WaypointPlaylistsFromMapActivity"></activity>
+        <activity android:name=".WaypointMap.waypointSettingsActivity"></activity>
+        <activity android:name=".WaypointMap.WaypointMapTestingSetupActivity"></activity>
 
         <activity
             android:name=".ui.login.UpdatePassword"
@@ -46,7 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WaypointMapActivity" />
+        <activity android:name=".WaypointMap.WaypointMapActivity" />
     </application>
 
 </manifest>

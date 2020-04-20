@@ -1,9 +1,16 @@
-package com.example.ottoplay;
+package com.example.ottoplay.WaypointMap;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.ottoplay.ClassDiagrams.Playlist;
+import com.example.ottoplay.ClassDiagrams.StaticWaypoint;
+import com.example.ottoplay.ClassDiagrams.User;
+import com.example.ottoplay.ClassDiagrams.Waypoint;
+import com.example.ottoplay.DatabaseConnector;
+import com.example.ottoplay.MyApplication;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;

@@ -1,23 +1,23 @@
-package com.example.ottoplay;
+package com.example.ottoplay.ClassDiagrams;
 
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
 public class Waypoint {
-    enum EditingSetting {
+    public enum EditingSetting {
         SOLO,
         SHARED,
         WILD
     }
 
-    enum VisibilitySetting {
+    public enum VisibilitySetting {
         PUBLIC,
         PRIVATE,
         HIDDEN
     }
 
-    enum Genre {
+    public enum Genre {
         HIPHOP,
         POP,
         JAZZ,
@@ -52,7 +52,7 @@ public class Waypoint {
     //image of area waypoint is in
     protected Bitmap image;
 
-    Waypoint(){
+    public Waypoint(){
         playlists = new ArrayList<>();
         genres = new ArrayList<>();
     };
@@ -109,6 +109,10 @@ public class Waypoint {
         return playlists.get(idx);
     }
 
+    public ArrayList<Playlist> getAllPlaylists() {
+        return playlists;
+    }
+
     public void addGenre(Genre genre) {
         genres.add(genre);
     }
@@ -119,6 +123,10 @@ public class Waypoint {
 
     public Genre getGenre(int idx) {
         return genres.get(idx);
+    }
+
+    public ArrayList<Genre> getAllGenres() {
+        return genres;
     }
 
     public void setVisSetting(VisibilitySetting vs) {

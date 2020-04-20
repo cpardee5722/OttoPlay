@@ -1,4 +1,4 @@
-package com.example.ottoplay;
+package com.example.ottoplay.ClassDiagrams;
 
 import java.util.ArrayList;
 import java.util.HashSet;

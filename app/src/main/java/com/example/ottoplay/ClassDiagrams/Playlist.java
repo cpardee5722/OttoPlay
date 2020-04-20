@@ -1,4 +1,4 @@
-package com.example.ottoplay;
+package com.example.ottoplay.ClassDiagrams;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class Playlist {
     //Name of playlist
     private String playlistName;
 
-    Playlist(String token, int id, String name) {
+    public Playlist(String token, int id, String name) {
         this.spotifyToken = token;
         this.ownerId = id;
         this.playlistName = name;

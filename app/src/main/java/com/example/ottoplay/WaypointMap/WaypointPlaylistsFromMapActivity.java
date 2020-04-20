@@ -1,4 +1,4 @@
-package com.example.ottoplay;
+package com.example.ottoplay.WaypointMap;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.ottoplay.ClassDiagrams.DynamicWaypoint;
+import com.example.ottoplay.ClassDiagrams.Playlist;
+import com.example.ottoplay.ClassDiagrams.User;
+import com.example.ottoplay.ClassDiagrams.Waypoint;
+import com.example.ottoplay.DatabaseConnector;
+import com.example.ottoplay.MyApplication;
+import com.example.ottoplay.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

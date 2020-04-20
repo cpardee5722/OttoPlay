@@ -1,40 +1,20 @@
 package com.example.ottoplay.ui.login;
 
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.provider.ContactsContract;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ottoplay.MyApplication;
 import com.example.ottoplay.R;
-import com.example.ottoplay.User;
-import com.example.ottoplay.WaypointMapTestingSetupActivity;
-import com.example.ottoplay.ui.login.LoginViewModel;
-import com.example.ottoplay.ui.login.LoginViewModelFactory;
+import com.example.ottoplay.WaypointMap.WaypointMapTestingSetupActivity;
 
-import java.io.EOFException;
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
