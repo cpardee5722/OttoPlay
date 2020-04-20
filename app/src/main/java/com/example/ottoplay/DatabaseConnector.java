@@ -37,12 +37,18 @@ public class DatabaseConnector {
         hostName = "ottoplay.hopto.org";
     }
 
+    public DatabaseConnector() {
+        lock = null;
+        port = 8889;
+        hostName = "ottoplay.hopto.org";
+    }
+
     public ArrayList<ArrayList<String>> requestData(String queryData) {
         ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
         String queryResult;
 
         try {
-            lock.lock();
+            if (lock != null) lock.lock();
             //make connection and get output stream
             socket = new Socket(hostName, port);
             OutputStream out = socket.getOutputStream();
@@ -61,8 +67,7 @@ public class DatabaseConnector {
             input.readFully(buf);
             queryResult = new String(buf, "UTF-8");
             socket.close();
-            lock.unlock();
-
+            if (lock != null) lock.unlock();
 
             if (count > 0) results = processQueryResult(queryResult);
         }

@@ -22,6 +22,12 @@ public class User {
     public User(String username, int userId) {
         this.username = username;
         this.userId = userId;
+
+        friendSet = new HashSet<>();
+        friendList = new ArrayList<>();
+        syncedPlaylists = new ArrayList<>();
+        sharedPlaylist = new ArrayList<>();
+        staticWpList = new ArrayList<>();
     }
 
     public DynamicWaypoint getDynamicWaypoint() {
@@ -30,11 +36,11 @@ public class User {
 
     public void setDynamicWaypoint(int wpId, String wpName) {
         dynamicWp = new DynamicWaypoint(wpId, userId, wpName);
-        friendSet = new HashSet<>();
+        /*friendSet = new HashSet<>();
         friendList = new ArrayList<>();
         syncedPlaylists = new ArrayList<>();
         sharedPlaylist = new ArrayList<>();
-        staticWpList = new ArrayList<>();
+        staticWpList = new ArrayList<>();*/
     }
 
     public void setUsername(String username) {
