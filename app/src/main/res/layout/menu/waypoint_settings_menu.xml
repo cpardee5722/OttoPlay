@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="PRIVACY"
+        android:id="@+id/privacy_options">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/PUBLIC"
+                    android:title="PUBLIC"
+                    android:orderInCategory="1"
+                     />
+                <item android:id="@+id/PRIVATE"
+                    android:title="PRIVATE"
+                    android:orderInCategory="1"
+                    />
+                <item android:id="@+id/HIDDEN"
+                    android:title="HIDDEN"
+                    android:orderInCategory="1"
+                     />
+            </group>
+
+        </menu>
+    </item>
+
+    <item
+        android:title="FILTERS"
+        android:id="@+id/filter_options">
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="all">
+                <item android:id="@+id/filter_rock"
+                    android:title="ROCK"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_metal"
+                    android:title="METAL"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_hiphop"
+                    android:title="HIPHOP"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_pop"
+                    android:title="POP"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_jazz"
+                    android:title="JAZZ"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_blues"
+                    android:title="BLUES"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_country"
+                    android:title="COUNTRY"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+                <item android:id="@+id/filter_edm"
+                    android:title="EDM"
+                    android:orderInCategory="1"
+                    android:checkable="true" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:title="DISCOVER"
+        android:id="@+id/discover_options">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/discover_on"
+                    android:title="ON"
+                    android:orderInCategory="1"
+                     />
+                <item android:id="@+id/discover_off"
+                    android:title="OFF"
+                    android:orderInCategory="1"
+                     />
+            </group>
+        </menu>
+    </item>
+</menu>

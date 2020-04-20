@@ -20,7 +20,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="574dp"
 
-        android:hint="@string/prompt_email"
+        android:hint="@string/prompt_username"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,9 +36,7 @@
         android:layout_marginTop="157dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="513dp"
-
         android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
@@ -55,7 +53,7 @@
         android:layout_gravity="start"
         android:layout_marginTop="235dp"
         android:layout_marginBottom="432dp"
-        android:text="@string/action_sign_in_short"
+        android:text="@string/action_sign_in"
         android:onClick="CheckDatabase"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,12 +79,12 @@
 
     <TextView
         android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_width="126dp"
+        android:layout_height="22dp"
         android:layout_marginTop="307dp"
         android:layout_marginBottom="389dp"
-        android:text="Forgot Password?"
         android:onClick="PasswordReset"
+        android:text="@string/forgot_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -95,30 +93,16 @@
 
     <TextView
         android:id="@+id/register"
-        android:layout_width="53dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="182dp"
+        android:layout_width="65dp"
+        android:layout_height="22dp"
         android:layout_marginTop="348dp"
         android:layout_marginBottom="360dp"
-        android:text="Register"
         android:onClick="SignUp"
+        android:text="@string/register"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/googleLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="397dp"
-        android:layout_marginBottom="270dp"
-        android:text="Sign In With Google"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

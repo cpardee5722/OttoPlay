@@ -8,11 +8,14 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 public class DatabaseConnector {
     private int port;
     private String hostName;
     private Socket socket;
+    private ReentrantLock lock;
 
     private ArrayList<ArrayList<String>> processQueryResult(String queryResult) {
         ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
@@ -29,7 +32,14 @@ public class DatabaseConnector {
         return results;
     }
 
+    public DatabaseConnector(ReentrantLock lock) {
+        this.lock = lock;
+        port = 8889;
+        hostName = "ottoplay.hopto.org";
+    }
+
     public DatabaseConnector() {
+        lock = null;
         port = 8889;
         hostName = "ottoplay.hopto.org";
     }
@@ -39,6 +49,8 @@ public class DatabaseConnector {
         String queryResult;
 
         try {
+            if (lock != null) lock.lock();
+
             //make connection and get output stream
             socket = new Socket(hostName, port);
             OutputStream out = socket.getOutputStream();
@@ -56,9 +68,11 @@ public class DatabaseConnector {
             byte[] buf = new byte[count];
             input.readFully(buf);
             queryResult = new String(buf, "UTF-8");
+            socket.close();
+            if (lock != null) lock.unlock();
+
             if (count > 0) results = processQueryResult(queryResult);
 
-            socket.close();
         }
         catch (UnknownHostException e) {
             e.printStackTrace();
