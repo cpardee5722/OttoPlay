@@ -3,7 +3,6 @@ package com.example.ottoplay.WaypointMap;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
@@ -17,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -27,7 +27,6 @@ import com.example.ottoplay.ClassDiagrams.User;
 import com.example.ottoplay.ClassDiagrams.Waypoint;
 import com.example.ottoplay.DatabaseConnector;
 import com.example.ottoplay.MyApplication;
-import com.example.ottoplay.Profile.MyWaypoints;
 import com.example.ottoplay.R;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +45,7 @@ public class waypointSettingsActivity extends AppCompatActivity {
     private User currentUser;
     private static int globalId;
 
-    private StaticWaypoint swpGlob;
+    private Waypoint swpGlob;
 
     private ReentrantLock connectorLock;
 
@@ -75,7 +74,7 @@ public class waypointSettingsActivity extends AppCompatActivity {
 
     private static ToggleButton genre1Button,genre2Button,genre3Button,genre4Button,genre5Button,genre6Button,genre7Button,genre8Button,genre9Button;
 
-    private StaticWaypoint swp;
+    private Waypoint swp;
     //name, <playlistid, spotifyid>
     private HashMap<String, Pair<Integer,String>> playlistIds;
     private ArrayList<String> playlistList;
@@ -89,7 +88,7 @@ public class waypointSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.waypointsettings);
 
         app = (MyApplication) getApplication();//can put this code in onCreate
-        swp = (StaticWaypoint) app.getWaypoint();
+        swp = app.getWaypoint();
         swpGlob = swp;
         globalId = swp.getGlobalId();
         connectorLock = app.getLock();
@@ -99,11 +98,17 @@ public class waypointSettingsActivity extends AppCompatActivity {
         //Load Settings Upon UI open
         setWaypointName(swp.getWaypointName());
         //Update UI with Coordinates
-        setWaypointCoordinates(swp.getLocation());
+        if (swp instanceof StaticWaypoint) setWaypointCoordinates(swp.getLocation());
         //Update UI with Visibility Settings
         setWaypointVisibility(swp.getVisSetting());
         //Update UI with editing Setting
-        setWaypointEditing(swp.getEditSetting());
+        if (swp instanceof StaticWaypoint) {
+            StaticWaypoint swp1 = (StaticWaypoint) swp;
+            setWaypointEditing(swp1.getEditSetting());
+        }
+        else {
+            setWaypointEditing(Waypoint.EditingSetting.valueOf("SOLO"));
+        }
         //Add all playlists present in waypoint to screen
         setWaypointPlaylists(swp.getAllPlaylists());
 
@@ -112,12 +117,21 @@ public class waypointSettingsActivity extends AppCompatActivity {
             setWaypointGenre(swp.getGenre(i),true);
         }
         // Set Creation Date label appropriately
-        setCreationDate(swp.getCreationDate());
+        if (swp instanceof StaticWaypoint) {
+            StaticWaypoint swp1 = (StaticWaypoint) swp;
+            setCreationDate(swp1.getCreationDate());
+        }
         //-----------------------------------------------------------------
         waypointName = (EditText) findViewById(R.id.waypointNameLabel);
 
         //Editing Settings Selection
         editingSelection = findViewById(R.id.editingSelection);
+        if (!(swp instanceof StaticWaypoint)) {
+            ((RadioButton) editingSelection.getChildAt(0)).setEnabled(false);
+            ((RadioButton) editingSelection.getChildAt(1)).setEnabled(false);
+            ((RadioButton) editingSelection.getChildAt(2)).setEnabled(false);
+
+        }
 
         //Visibility Settings Selection
         visibilitySelection = findViewById(R.id.visibilitySelection);
@@ -131,6 +145,18 @@ public class waypointSettingsActivity extends AppCompatActivity {
         genre7Button= findViewById(R.id.genre7);
         genre8Button= findViewById(R.id.genre8);
         genre9Button= findViewById(R.id.genre9);
+
+        if (!(swp instanceof StaticWaypoint)) {
+            genre1Button.setEnabled(false);
+            genre2Button.setEnabled(false);
+            genre3Button.setEnabled(false);
+            genre4Button.setEnabled(false);
+            genre5Button.setEnabled(false);
+            genre6Button.setEnabled(false);
+            genre7Button.setEnabled(false);
+            genre8Button.setEnabled(false);
+            genre9Button.setEnabled(false);
+        }
 
         //----------------------------------------------------------------------------- UI Listeners
 
@@ -200,7 +226,10 @@ public class waypointSettingsActivity extends AppCompatActivity {
                         break;
                 }
                 updateWaypointEditing(storedEdit);
-                swp.setEditSetting(edit);
+                if (swp instanceof StaticWaypoint) {
+                    StaticWaypoint swp1 = (StaticWaypoint) swp;
+                    swp1.setEditSetting(edit);
+                }
             }
         });
 

@@ -42,5 +42,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:entries="@array/sections"></ListView>
+
     </LinearLayout>
 </ScrollView>

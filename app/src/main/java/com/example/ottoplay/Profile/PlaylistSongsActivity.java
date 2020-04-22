@@ -1,6 +1,7 @@
 package com.example.ottoplay.Profile;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -97,4 +98,5 @@ public class PlaylistSongsActivity extends AppCompatActivity {
             }
         });*/
     }
+
 }

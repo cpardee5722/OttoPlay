@@ -299,7 +299,7 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
     }
 
     private boolean canUserEdit() {
-        if (wp instanceof DynamicWaypoint) return false;
+        //if (wp instanceof DynamicWaypoint) return false;
         if (currentUser.getUserId() == wp.getOwnerUserId()) return true;
 
         Thread t = new Thread(new CanUserEditThread());
