@@ -21,6 +21,7 @@ import com.example.ottoplay.ClassDiagrams.User;
 import com.example.ottoplay.ClassDiagrams.Waypoint;
 import com.example.ottoplay.DatabaseConnector;
 import com.example.ottoplay.MyApplication;
+import com.example.ottoplay.Profile.PlaylistSongsActivity;
 import com.example.ottoplay.R;
 
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
 
         playlistIds = new HashMap<>();
         ArrayList<String> playlistList = getWaypointPlaylists(wp);
+        if (playlistIds == null) playlistIds = new HashMap<>();
+        app.setPlaylistIds(playlistIds);
 
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(wp.getWaypointName());
@@ -69,6 +72,9 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         final Button addToPlaylistsButton = (Button) findViewById(R.id.addPlaylistButton);
         addToPlaylistsButton.setEnabled(false);
 
+        final Button viewPlaylistButton = (Button) findViewById(R.id.button3);
+        viewPlaylistButton.setEnabled(false);
+
         final Button addFriendButton = (Button) findViewById(R.id.addFriend);
         if (wp.getOwnerUserId() == currentUser.getUserId()) addFriendButton.setEnabled(false);
 
@@ -77,7 +83,6 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, playlistList);
         playlists.setAdapter(arrayAdapter);
         playlists.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        final int currentPosition = -1;
         playlists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -86,9 +91,22 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
                 if (wp.getOwnerUserId() != currentUser.getUserId()) {
                     addToPlaylistsButton.setEnabled(true);
                 }
+                viewPlaylistButton.setEnabled(true);
+
                 String selected = (String) playlists.getItemAtPosition(position);
                 addToPlaylistsButton.setTag((Object) selected);
+                viewPlaylistButton.setTag((Object) position);
                 playlists.setSelector(R.color.pressed_color);
+            }
+        });
+
+        viewPlaylistButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int position = (int) viewPlaylistButton.getTag();
+                Playlist p = wp.getPlaylist(position);
+                app.setPlaylist(p);
+                Intent intent = new Intent(WaypointPlaylistsFromMapActivity.this, PlaylistSongsActivity.class);
+                WaypointPlaylistsFromMapActivity.this.startActivity(intent);
             }
         });
 
@@ -98,6 +116,7 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
                 addToPlaylistsButton.setEnabled(false);
                 playlists.setAdapter(arrayAdapter);//unselects item
                 addWaypointPlaylistToMyPlaylists(playlistIds.get(selected));
+                viewPlaylistButton.setEnabled(false);
             }
         });
 

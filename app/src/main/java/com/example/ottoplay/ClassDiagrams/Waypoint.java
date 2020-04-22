@@ -105,6 +105,8 @@ public class Waypoint {
         playlists.remove(playlist);
     }
 
+    public void clearPlaylists() { playlists.clear(); }
+
     public Playlist getPlaylist(int idx) {
         return playlists.get(idx);
     }
@@ -120,6 +122,8 @@ public class Waypoint {
     public void removeGenre(Genre genre) {
         genres.remove(genre);
     }
+
+    public void clearGenres() { genres.clear(); }
 
     public Genre getGenre(int idx) {
         return genres.get(idx);
@@ -144,4 +148,5 @@ public class Waypoint {
     public Bitmap getImage() {
         return image;
     }
+
 }

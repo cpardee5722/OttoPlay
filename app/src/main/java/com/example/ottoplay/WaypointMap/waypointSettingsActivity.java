@@ -3,12 +3,20 @@ package com.example.ottoplay.WaypointMap;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -19,11 +27,13 @@ import com.example.ottoplay.ClassDiagrams.User;
 import com.example.ottoplay.ClassDiagrams.Waypoint;
 import com.example.ottoplay.DatabaseConnector;
 import com.example.ottoplay.MyApplication;
+import com.example.ottoplay.Profile.MyWaypoints;
 import com.example.ottoplay.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class waypointSettingsActivity extends AppCompatActivity {
@@ -42,7 +52,7 @@ public class waypointSettingsActivity extends AppCompatActivity {
 
     private static int addPlaylist= R.id.addPlaylist;
     //array of possible playlists
-    private static int[] playlists={R.id.playlist1,
+    /*private static int[] playlists={R.id.playlist1,
                                     R.id.playlist2,
                                     R.id.playlist3,
                                     R.id.playlist4,
@@ -61,9 +71,14 @@ public class waypointSettingsActivity extends AppCompatActivity {
                                     R.id.playlist17,
                                     R.id.playlist18,
                                     R.id.playlist19,
-                                    R.id.playlist20};
+                                    R.id.playlist20};*/
 
     private static ToggleButton genre1Button,genre2Button,genre3Button,genre4Button,genre5Button,genre6Button,genre7Button,genre8Button,genre9Button;
+
+    private StaticWaypoint swp;
+    //name, <playlistid, spotifyid>
+    private HashMap<String, Pair<Integer,String>> playlistIds;
+    private ArrayList<String> playlistList;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -73,13 +88,13 @@ public class waypointSettingsActivity extends AppCompatActivity {
         //TODO
         setContentView(R.layout.waypointsettings);
 
-        final StaticWaypoint swp;
-
         app = (MyApplication) getApplication();//can put this code in onCreate
         swp = (StaticWaypoint) app.getWaypoint();
         swpGlob = swp;
         globalId = swp.getGlobalId();
         connectorLock = app.getLock();
+        playlistIds = app.getPlaylistIds();
+        currentUser = app.getUser();
 
         //Load Settings Upon UI open
         setWaypointName(swp.getWaypointName());
@@ -189,7 +204,142 @@ public class waypointSettingsActivity extends AppCompatActivity {
             }
         });
 
+
+        final ListView playlists = (ListView) findViewById(R.id.playlistsScrollBar);
+
+        ArrayList<Playlist> pl = swp.getAllPlaylists();
+
+        playlistList = new ArrayList<>();
+        for (int i = 0; i < pl.size(); i++) {
+            playlistList.add(pl.get(i).getPlaylistName());
+        }
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, playlistList);
+        playlists.setAdapter(arrayAdapter);
+        playlists.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        final Button removeButton = (Button) findViewById(R.id.removePlaylist);
+        removeButton.setEnabled(false);
+
+        final int currentPosition = -1;
+        playlists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO
+                //do not enable this button if this waypoint belongs to the current user
+                /*if (wp.getOwnerUserId() != currentUser.getUserId()) {
+                    addToPlaylistsButton.setEnabled(true);
+                }
+                String selected = (String) playlists.getItemAtPosition(position);
+                addToPlaylistsButton.setTag((Object) selected);*/
+
+                String selected = (String) playlists.getItemAtPosition(position);
+                selected += " " + Integer.toString(position);
+                removeButton.setTag((Object) selected);
+                removeButton.setEnabled(true);
+
+                playlists.setSelector(R.color.pressed_color);
+            }
+        });
+
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String tag = (String) v.getTag();
+                String[] args = tag.split(" ");
+                ArrayList<Playlist> pls = swp.getAllPlaylists();
+                Playlist p = new Playlist();
+                for (int i = 0; i < pls.size(); i++) {
+                    if (args[0].compareTo(pls.get(i).getPlaylistName()) == 0) {
+                        p = pls.get(i);
+                        swp.removePlaylist(pls.get(i));
+                    }
+                }
+
+                Thread t = new Thread(new RemovePlaylistThread(p));
+                t.start();
+                try {
+                    t.join();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                arrayAdapter.remove(args[0]);
+                playlists.setAdapter(arrayAdapter);//unselects item
+                removeButton.setEnabled(false);
+            }
+        });
     }
+
+    public void showMenu(View v) {
+        final ArrayList<Playlist> userPlaylists = currentUser.getSyncedPlaylists();
+        final PopupMenu popup = new PopupMenu(waypointSettingsActivity.this, v);
+        popup.inflate(R.menu.add_playlist_menu);
+        Menu m = popup.getMenu();
+        for (int i = 0; i < userPlaylists.size(); i++) {
+            m.add(0,i,0, userPlaylists.get(i).getPlaylistName());
+        }
+        //m.add()
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Playlist p = userPlaylists.get(item.getItemId());
+                Thread t = new Thread(new AddPlaylistThread(p));
+                t.start();
+                try {
+                    t.join();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                swp.addPlaylist(p);
+
+                ListView playlists = (ListView) findViewById(R.id.playlistsScrollBar);
+                playlistList.add(p.getPlaylistName());
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(waypointSettingsActivity.this, android.R.layout.simple_list_item_1, playlistList);
+                playlists.setAdapter(arrayAdapter);
+
+                return false;
+            }
+        });
+
+
+        //popup.inflate(R.menu.waypoint_settings_menu);
+
+        //initializeMenu(popup);
+
+        popup.show();
+
+    }
+
+    class AddPlaylistThread implements Runnable {
+        Playlist p;
+        AddPlaylistThread(Playlist playlist) {
+            p = playlist;
+        }
+
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            dbc.requestData("15:" + Integer.toString(p.getPlaylistId()) + "," + Integer.toString(swp.getGlobalId()));
+        }
+    }
+
+
+    class RemovePlaylistThread implements Runnable {
+        Playlist p;
+        RemovePlaylistThread(Playlist playlist) {
+            p = playlist;
+        }
+
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            dbc.requestData("16:" + Integer.toString(p.getPlaylistId()) + "," + Integer.toString(swp.getGlobalId()));
+        }
+    }
+
 
     //Playlist code
     public void buttonPlaylistClicked(View view){
@@ -335,8 +485,10 @@ public class waypointSettingsActivity extends AppCompatActivity {
 
     public void setWaypointCoordinates(String GPS){
         String [] Coordinates =GPS.split(" ");
-        ((TextView) findViewById(R.id.latitude)).setText(Coordinates[0].substring(0,10));
-        ((TextView) findViewById(R.id.longitude)).setText(Coordinates[1].substring(0,10));
+        int trim = 10;
+        if (Coordinates[0].length() < 10) trim = Coordinates[0].length();
+        ((TextView) findViewById(R.id.latitude)).setText(Coordinates[0].substring(0,trim));
+        ((TextView) findViewById(R.id.longitude)).setText(Coordinates[1].substring(0,trim));
     }
 
     public void setWaypointEditing(StaticWaypoint.EditingSetting Editing) {
@@ -373,14 +525,14 @@ public class waypointSettingsActivity extends AppCompatActivity {
 
     public void setWaypointPlaylists(ArrayList<Playlist> Playlists) {
         //Update Playlists list
-        for(int i=0; i<Playlists.size();i++){
+       /* for(int i=0; i<Playlists.size();i++){
             ((Button) findViewById(playlists[i])).setVisibility(View.VISIBLE);
             ((Button) findViewById(playlists[i])).setText(Playlists.get(i).getPlaylistName()); //Playlist class needs name attribute
         }
         //If we have maximum playlists, remove add playlist button
         if(Playlists.size()>=20){
             ((Button) findViewById(addPlaylist)).setVisibility(View.GONE);
-        }
+        }*/
     }
 
     public void setWaypointGenre(Waypoint.Genre Genre, boolean value) {

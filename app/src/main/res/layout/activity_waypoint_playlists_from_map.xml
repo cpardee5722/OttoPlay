@@ -8,15 +8,17 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="370dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="558dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="537dp"
         android:gravity="center"
         android:textSize="26sp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +28,7 @@
         android:layout_width="390dp"
         android:layout_height="27dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="76dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:textSize="15sp"
@@ -50,53 +52,62 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.496" />
 
-    <Button
-        android:id="@+id/addPlaylistButton"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:layout_marginBottom="15dp"
-        android:text="Add to My Playlists"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addFriend"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.998" />
 
-    <Button
-        android:id="@+id/addFriend"
+    <LinearLayout
+        android:id="@+id/linearLayouta"
         android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginRight="36dp"
-        android:layout_marginBottom="15dp"
-        android:text="Add Friend"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="300"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addPlaylistButton"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.998" />
-
-    <Button
-        android:id="@+id/editWaypointButton"
-        android:layout_width="376dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginRight="29dp"
-        android:layout_marginBottom="89dp"
-        android:text="EDIT WAYPOINT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <Button
+            android:id="@+id/editWaypointButton"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:layout_weight="150"
+            android:text="EDIT WAYPOINT" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:layout_weight="150"
+            android:text="View Playlist"
+            tools:layout_editor_absoluteX="43dp"
+            tools:layout_editor_absoluteY="52dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="300"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayouta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <Button
+            android:id="@+id/addPlaylistButton"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:layout_weight="150"
+            android:text="Add to My Playlists" />
+
+        <Button
+            android:id="@+id/addFriend"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:layout_weight="150"
+            android:text="Add Friend" />
+
+    </LinearLayout>
+    -
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

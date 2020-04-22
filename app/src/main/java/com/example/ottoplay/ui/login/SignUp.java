@@ -96,7 +96,7 @@ public class SignUp extends AppCompatActivity {
             createUser = dbc.requestData("12:" + username.getText() + "," + password.getText());
             getId = dbc.requestData("4:" + username.getText());
             //CREATE DYNAMIC WAYPOINT userid, ("username" + dwp) as the name, set type as DYNAMIC, SOLO editing, PRIVATE visibility, null)
-            createWaypoint = dbc.requestData("13:" + getId + "," + username.getText().toString() + ",dwp,DYNAMIC,SOLO,PRIVATE,null");
+            createWaypoint = dbc.requestData("13:" + getId.get(0).get(0) + "," + username.getText().toString() + ",dwp,DYNAMIC,SOLO,PRIVATE,null");
 
         }
     }

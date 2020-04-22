@@ -35,6 +35,7 @@
         android:layout_height="63dp"
         android:layout_marginStart="216dp"
         android:text="Refresh"
+        android:onClick="refreshClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/g_map"
         app:layout_constraintTop_toBottomOf="@+id/g_map"

@@ -26,6 +26,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.ottoplay.ClassDiagrams.DynamicWaypoint;
 import com.example.ottoplay.ClassDiagrams.StaticWaypoint;
@@ -53,7 +55,6 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class WaypointMapActivity extends AppCompatActivity implements OnMapReadyCallback {
-
     private GoogleMap mMap;
 
     private MyApplication app;
@@ -81,6 +82,9 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
 
     //TODO implement discovery
     private boolean discoverySetting = false;
+
+    private boolean threadStop = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +212,7 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
             String location;
             final HashMap<Integer, Marker> dwpMarkers = new HashMap<>();
             String dwpData = Integer.toString(dwp.getGlobalId()) + "," + Integer.toString(currentUser.getUserId()) + "," + dwp.getWaypointName();
-            while (true) {
+            while (!threadStop) {
                 DatabaseConnector dbc = new DatabaseConnector(connectorLock);
                 location = Double.toString(dwpLocation.getLatitude()) + " " + Double.toString(dwpLocation.getLongitude());
 
@@ -287,6 +291,11 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
+    public void refreshClick(View v) {
+        threadStop = true;
+        WaypointMapActivity.this.recreate();
+    }
+
     private void loadAndDisplayStaticWaypoints() {
         try {
             HashMap<Integer, ArrayList<Waypoint.Genre>> waypointGenresTable = new HashMap<>();
@@ -325,6 +334,7 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                 String[] coords = wp.getLocation().split(" ");
                 if (coords.length == 2 && (wp.getVisSetting() == Waypoint.VisibilitySetting.PUBLIC || wp.getOwnerUserId() == currentUser.getUserId()
                     || (wp.getVisSetting() == Waypoint.VisibilitySetting.PRIVATE && currentUser.isFriend(wp.getOwnerUserId())))) {
+                    System.out.println("DRAWING WAYPOINT" + wp.getGlobalId());
                     //System.out.println("id = " + wp.getGlobalId());
                     LatLng wpLoc = new LatLng(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]));
                     Marker m = mMap.addMarker(new MarkerOptions().position(wpLoc));
@@ -344,10 +354,13 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                     }
 
                     waypointMarkers.put(m, Pair.create(c, wp));
-                    for (Waypoint.Genre g : waypointGenresTable.get(wp.getGlobalId())) {
-                        if (staticWaypointsByGenre.containsKey(g)) {
-                            staticWaypointsByGenre.get(g).add(m);
-                            wp.addGenre(g);
+                    wp.clearGenres();
+                    if (waypointGenresTable.containsKey(wp.getGlobalId())) {
+                        for (Waypoint.Genre g : waypointGenresTable.get(wp.getGlobalId())) {
+                            if (staticWaypointsByGenre.containsKey(g)) {
+                                staticWaypointsByGenre.get(g).add(m);
+                                wp.addGenre(g);
+                            }
                         }
                     }
                 }
@@ -448,7 +461,9 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                         else discoverySetting = false;
                     }
                     else if (title.compareTo("NEW WAYPOINT") == 0) {
-                        //TODO
+                        String loc = Double.toString(dwpLocation.getLatitude()) + " " + Double.toString(dwpLocation.getLongitude());
+                        app.setLocation(loc);
+                        startActivity(new Intent(WaypointMapActivity.this, CreateWaypoint.class));
                     }
                     else {
                         if (item.isChecked()) {
@@ -542,5 +557,11 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
         if (dwp.getVisSetting() == Waypoint.VisibilitySetting.HIDDEN) {
             popup.getMenu().findItem(R.id.privacy_options).getSubMenu().findItem(R.id.HIDDEN).setChecked(true);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        threadStop = true;
+        super.onBackPressed();
     }
 }

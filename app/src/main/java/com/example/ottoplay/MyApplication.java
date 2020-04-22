@@ -1,11 +1,13 @@
 package com.example.ottoplay;
 
 import android.app.Application;
+import android.util.Pair;
 
 import com.example.ottoplay.ClassDiagrams.Playlist;
 import com.example.ottoplay.ClassDiagrams.User;
 import com.example.ottoplay.ClassDiagrams.Waypoint;
 
+import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MyApplication extends Application {
@@ -14,12 +16,31 @@ public class MyApplication extends Application {
     private ReentrantLock lock;
     private Playlist playlist;
     private String loginUsername;
+    private String location;
+
+    //bandaid because Jimmy is dumb and forgot to put playlist IDs into Playlist class
+    private HashMap<String, Pair<Integer,String>> playlistIds;
+
+    //a user Id of an arbitrary user
+    private int userId;
 
     @Override
     public void onCreate() {
 
         super.onCreate();
     }
+
+    public void setLocation(String l) {
+        this.location = l;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setUserId(int id) { this.userId = id; }
+
+    public int getUserId() { return userId; }
 
     public void setUser(User user) {
         this.user = user;
@@ -59,5 +80,13 @@ public class MyApplication extends Application {
 
     public String getLoginUsername() {
         return loginUsername;
+    }
+
+    public void setPlaylistIds(HashMap<String, Pair<Integer,String>> pl) {
+        this.playlistIds = pl;
+    }
+
+    public HashMap<String, Pair<Integer,String>> getPlaylistIds() {
+        return playlistIds;
     }
 }

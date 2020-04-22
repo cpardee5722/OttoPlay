@@ -6,6 +6,8 @@ public class Playlist {
     //songs within playlist
     private ArrayList<String> songList;
 
+    private int playlistId;
+
     //spotify token corresponding to Spotify API
     private String spotifyToken;
 
@@ -15,10 +17,26 @@ public class Playlist {
     //Name of playlist
     private String playlistName;
 
-    public Playlist(String token, int id, String name) {
+    public Playlist(){};
+
+    /*public Playlist(String token, int id, String name) {
         this.spotifyToken = token;
         this.ownerId = id;
         this.playlistName = name;
+    }*/
+
+    public Playlist(String token, int id, String name) {
+        this.spotifyToken = token;
+        this.playlistId = id;
+        this.playlistName = name;
+    }
+
+    public void setPlaylistId(int id) {
+        this.playlistId = id;
+    }
+
+    public int getPlaylistId() {
+        return playlistId;
     }
 
     //Load songs from Spotify API.

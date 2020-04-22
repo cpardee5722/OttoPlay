@@ -8,8 +8,13 @@ public class User {
     private int userId;
     private ArrayList<Integer> friendList;
     private HashSet<Integer> friendSet;
+
+    //These are my playlists that coome from spotify (Playlists Table in DB)
     private ArrayList<Playlist> syncedPlaylists;
+
+    //these are playlists I got from other people's waypoints (Shared Playlists Table in DB)
     private ArrayList<Playlist> sharedPlaylist;
+
     private DynamicWaypoint dynamicWp;
     private ArrayList<StaticWaypoint> staticWpList;
     //TODO
@@ -77,9 +82,13 @@ public class User {
         sharedPlaylist.add(playlist);
     }
 
+    public ArrayList<Playlist> getSharedPlaylists() { return sharedPlaylist; }
+
     public void addToSyncedPlaylist(Playlist playlist) {
         syncedPlaylists.add(playlist);
     }
+
+    public ArrayList<Playlist> getSyncedPlaylists() { return syncedPlaylists; }
 
     public void removeFromSharedPlaylist(Playlist playlist) {
         syncedPlaylists.remove(playlist);
@@ -96,6 +105,8 @@ public class User {
     public void removeStaticWaypoint(StaticWaypoint sw) {
         staticWpList.remove(sw);
     }
+
+    public ArrayList<StaticWaypoint> getStaticWaypoints() { return staticWpList; }
 
     public void enableDiscover() {
         discoverEnabled = true;

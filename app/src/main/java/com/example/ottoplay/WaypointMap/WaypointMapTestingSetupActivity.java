@@ -11,6 +11,7 @@ import com.example.ottoplay.ClassDiagrams.User;
 import com.example.ottoplay.ClassDiagrams.Waypoint;
 import com.example.ottoplay.DatabaseConnector;
 import com.example.ottoplay.MyApplication;
+import com.example.ottoplay.Profile.MainActivity;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
@@ -65,8 +66,17 @@ public class WaypointMapTestingSetupActivity extends AppCompatActivity {
                 }
             }
 
-            //get synced playlists from Spotify API
-            //TODO
+            //get user's actual playlists
+            queryResults.clear();
+            t = new Thread(new GetUserPlaylistsThread(user));
+            t.start();
+            t.join();
+            if (!queryResults.isEmpty()) {
+                for (int i = 0; i < queryResults.size(); i++) {
+                    user.addToSyncedPlaylist(new Playlist(queryResults.get(i).get(2), Integer.parseInt(queryResults.get(i).get(0)), queryResults.get(i).get(1)));
+                }
+            }
+
 
             //get user's shared playlists
             queryResults.clear();
@@ -93,6 +103,8 @@ public class WaypointMapTestingSetupActivity extends AppCompatActivity {
                 }
             }
 
+            app.setUserId(user.getUserId());
+
             app.setUser(user);
 
         }
@@ -100,7 +112,8 @@ public class WaypointMapTestingSetupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(WaypointMapTestingSetupActivity.this, WaypointMapActivity.class);
+        //Intent intent = new Intent(WaypointMapTestingSetupActivity.this, WaypointMapActivity.class);
+        Intent intent = new Intent(WaypointMapTestingSetupActivity.this, MainActivity.class);
         WaypointMapTestingSetupActivity.this.startActivity(intent);
     }
 
@@ -115,6 +128,20 @@ public class WaypointMapTestingSetupActivity extends AppCompatActivity {
         public void run() {
             DatabaseConnector dbc = new DatabaseConnector(connectorLock);
             queryResults = dbc.requestData("5:" + Integer.toString(user.getUserId()));
+        }
+    }
+
+    class GetUserPlaylistsThread implements Runnable {
+        private User user;
+
+        GetUserPlaylistsThread(User user) {
+            this.user = user;
+        }
+
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(connectorLock);
+            queryResults = dbc.requestData("7:" + Integer.toString(user.getUserId()));
         }
     }
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".WaypointMap.waypointSettingsActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mainHorizontalLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,10 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Space
+
+        <!--<Space
             android:id="@+id/spacer"
             android:layout_width="100sp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" />-->
 
         <LinearLayout
             android:id="@+id/mainVerticalLayout"
@@ -73,7 +74,8 @@
                 android:gravity="center_horizontal"
                 android:text="@string/visibilityLabel"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
             <RadioGroup
                 android:id="@+id/visibilitySelection"
@@ -110,7 +112,8 @@
                 android:singleLine="false"
                 android:text="@string/editingLabel"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
             <RadioGroup
                 android:id="@+id/editingSelection"
@@ -151,14 +154,16 @@
                 android:gravity="center_horizontal"
                 android:text="@string/playlistsLabel"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
-            <ScrollView
+            <ListView
                 android:id="@+id/playlistsScrollBar"
                 android:layout_width="match_parent"
-                android:layout_height="163dp">
+                android:layout_height="121dp"
+                android:background="@drawable/background_key">
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/playlistsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -324,15 +329,68 @@
                         android:visibility="gone"
                         android:text="@string/playlist20" />
 
+
+                    <Button
+                        android:id="@+id/viewPlaylist"
+                        android:onClick="buttonAddPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View Playlist"
+                        android:onclick="viewPlaylistClick"/>
+
+                    <Button
+                        android:id="@+id/removePlaylist"
+                        android:onClick="buttonAddPlaylistClicked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Remove Playlist"
+                        android:onclick="removePlaylistClick"/>
+
                     <Button
                         android:id="@+id/addPlaylist"
                         android:onClick="buttonAddPlaylistClicked"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/Addplaylist" />
+                        android:text="@string/Addplaylist"
+                        android:onclick="addPlaylistsClick"/>
 
-                </LinearLayout>
-            </ScrollView>
+
+                </LinearLayout>-->
+            </ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="300"
+                android:orientation="horizontal"
+                >
+
+                <!--<Button
+                    android:id="@+id/viewPlaylist"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="100"
+                    android:text="View Playlist" />-->
+
+                <Button
+                    android:id="@+id/removePlaylist"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="150"
+                    android:text="Remove Playlist" />
+
+                <Button
+                    android:id="@+id/addPlaylist"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="150"
+                    android:text="@string/Addplaylist"
+                    android:onClick="showMenu"/>
+
+            </LinearLayout>
+
+
+
 
             <TextView
                 android:id="@+id/genreLabel"
@@ -342,7 +400,8 @@
                 android:gravity="center_horizontal"
                 android:text="@string/genreLabel"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
             <TableLayout
                 android:id="@+id/genreTableLayout"
@@ -486,5 +545,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

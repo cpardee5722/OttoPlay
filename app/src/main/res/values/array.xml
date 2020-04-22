@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sections">
+        <item >Friends</item>
+        <item >Waypoints</item>
+        <item >My Playlists</item>
+        <item >Shared Playlists</item>
+        <item >Search</item>
+
+    </string-array>
+</resources>
