@@ -43,6 +43,13 @@ public class MyWaypoints extends AppCompatActivity implements AdapterView.OnItem
     ArrayList<String> waypoint_name = new ArrayList<String>();
     private androidx.appcompat.widget.Toolbar toolbar;
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_waypoints);

@@ -34,12 +34,14 @@
         android:textSize="22sp"
         android:layout_gravity="center"
         android:textStyle="bold" />
+
     <ListView
         android:id="@+id/myplaylists"
         android:layout_width="match_parent"
-        android:layout_height="467dp"
+        android:layout_height="592dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:entries="@array/sections"></ListView>
+
 </LinearLayout>
 </ScrollView>

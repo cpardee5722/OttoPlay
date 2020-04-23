@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ottoplay.MyApplication;
 import com.example.ottoplay.R;
@@ -121,10 +122,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 System.out.println("User exists");
 
-                if (!password.getText().toString().equals(checkUser.get(i).get(2)))
+                if (!password.getText().toString().equals(checkUser.get(i).get(2))) {
                     System.out.println("Incorrect password");
+                   // Toast toast = Toast.makeText(getApplicationContext(), "Login Failed.", Toast.LENGTH_LONG);
+                    //toast.show();
+                }
+
                 else {
                     System.out.println("Login Successful");
+                    //Toast toast = Toast.makeText(getApplicationContext(), "Login Successful.", Toast.LENGTH_SHORT);
+                    //toast.show();
                     createLoginSession(username, password);
                 }
             }

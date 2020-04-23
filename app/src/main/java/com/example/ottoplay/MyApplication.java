@@ -17,6 +17,8 @@ public class MyApplication extends Application {
     private Playlist playlist;
     private String loginUsername;
     private String location;
+    boolean sharedPlaylist;
+    boolean hidePlaylistDelete;
 
     //bandaid because Jimmy is dumb and forgot to put playlist IDs into Playlist class
     private HashMap<String, Pair<Integer,String>> playlistIds;
@@ -26,13 +28,29 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
+    }
+
+    public void setSharedPlaylist(boolean b) {
+        sharedPlaylist = b;
+    }
+
+    public boolean getSharedPlaylist() {
+        return sharedPlaylist;
+    }
+
+    public boolean getHidePlaylistDelete() {
+        return hidePlaylistDelete;
+    }
+
+    public void setHidePlaylistDelete(boolean b) {
+        hidePlaylistDelete = b;
     }
 
     public void setLocation(String l) {
         this.location = l;
     }
+
 
     public String getLocation() {
         return location;

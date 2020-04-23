@@ -70,6 +70,14 @@ public class FriendsActivity extends AppCompatActivity implements AdapterView.On
     private androidx.appcompat.widget.Toolbar toolbar;
     ArrayList<String> friend_name = new ArrayList<String>();
     ArrayList<String> friend_id = new ArrayList<String>();
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_activity);

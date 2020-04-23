@@ -71,7 +71,12 @@ public class User {
 
     public void removeFriend(int friendId) {
         friendSet.remove(friendId);
-        friendList.remove(friendId);
+        for (int i = 0; i < friendList.size(); i++) {
+            if (friendList.get(i) == friendId) {
+                friendList.remove(i);
+                return;
+            }
+        }
     }
 
     public boolean isFriend(int userId) {
@@ -90,8 +95,23 @@ public class User {
 
     public ArrayList<Playlist> getSyncedPlaylists() { return syncedPlaylists; }
 
-    public void removeFromSharedPlaylist(Playlist playlist) {
-        syncedPlaylists.remove(playlist);
+    public void removeFromSharedPlaylist(Playlist p) {
+        for (int i = 0; i < sharedPlaylist.size(); i++) {
+            if (sharedPlaylist.get(i).getPlaylistId() == p.getPlaylistId()) {
+                sharedPlaylist.remove(i);
+                return;
+            }
+        }
+       // syncedPlaylists.remove(playlist);
+    }
+
+    public void removeFromSyncedPlaylist(Playlist p) {
+        for (int i = 0; i < syncedPlaylists.size(); i++) {
+            if (syncedPlaylists.get(i).getPlaylistId() == p.getPlaylistId()) {
+                syncedPlaylists.remove(i);
+                return;
+            }
+        }
     }
 
     public boolean getDiscoverVal() {

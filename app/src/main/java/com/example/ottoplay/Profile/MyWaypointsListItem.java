@@ -37,6 +37,13 @@ public class MyWaypointsListItem extends AppCompatActivity {
 
     private StaticWaypoint swp;
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mywaypoints_listitem);

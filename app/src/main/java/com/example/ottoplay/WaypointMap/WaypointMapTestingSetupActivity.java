@@ -33,6 +33,7 @@ public class WaypointMapTestingSetupActivity extends AppCompatActivity {
             app.setLock(connectorLock);
 
             username = app.getLoginUsername();
+            app.setHidePlaylistDelete(true);
 
             System.out.println("USER IS " + username);
             //get initial user data

@@ -1,13 +1,16 @@
 package com.example.ottoplay.Profile;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ottoplay.ClassDiagrams.Playlist;
 import com.example.ottoplay.DatabaseConnector;
 import com.example.ottoplay.MyApplication;
 import com.example.ottoplay.R;
@@ -19,6 +22,7 @@ import java.util.concurrent.FutureTask;
 
 public class PlaylistSongsActivity extends AppCompatActivity {
     private MyApplication app;
+    private Playlist curPlaylist;
     class DatabaseConnThread implements Callable {
 
         String q;
@@ -43,10 +47,35 @@ public class PlaylistSongsActivity extends AppCompatActivity {
     private ListView lv;
     ArrayList<String> song_name = new ArrayList<String>();
     private androidx.appcompat.widget.Toolbar toolbar;
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        app.setHidePlaylistDelete(true);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playlist_songs);
+        app = (MyApplication)getApplication();
+
         final TextView textChange = (TextView) findViewById(R.id.playlistName);
+
+        Button button = (Button) findViewById(R.id.removePlaylistButton);
+
+        if (app.getHidePlaylistDelete()) {
+            button.setEnabled(false);
+        }
+        else {
+            button.setEnabled(true);
+        }
 
         lv = (ListView) findViewById(R.id.myplaylists);
 
@@ -56,7 +85,7 @@ public class PlaylistSongsActivity extends AppCompatActivity {
 
 //Fetching playlists for the userid
         FutureTask a;
-        app = (MyApplication)getApplication();
+        curPlaylist = app.getPlaylist();
         String id = Integer.toString(app.getPlaylist().getPlaylistId());
         a = new FutureTask<>(new DatabaseConnThread("51:" + id));
         Thread t = new Thread(a);
@@ -97,6 +126,59 @@ public class PlaylistSongsActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
             }
         });*/
+    }
+
+    public void deleteButtonClicked(View v) {
+        if (app.getSharedPlaylist()) {
+            app.getUser().removeFromSharedPlaylist(curPlaylist);
+            Thread t = new Thread(new RemoveSharedPlaylistThread(curPlaylist));
+            t.start();
+            try {
+                t.join();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            app.getUser().removeFromSyncedPlaylist(curPlaylist);
+            Thread t = new Thread(new RemoveSyncedPlaylistThread(curPlaylist));
+            t.start();
+            try {
+                t.join();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        this.onBackPressed();
+    }
+
+    class RemoveSharedPlaylistThread implements Runnable {
+        Playlist p;
+        RemoveSharedPlaylistThread(Playlist p) {
+            this.p = p;
+        }
+
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(app.getLock());
+            dbc.requestData("18:" + Integer.toString(p.getPlaylistId()) + "," + app.getUser().getUserId());
+        }
+    }
+
+    class RemoveSyncedPlaylistThread implements Runnable {
+        Playlist p;
+        RemoveSyncedPlaylistThread(Playlist p) {
+            this.p = p;
+        }
+
+        @Override
+        public void run() {
+            DatabaseConnector dbc = new DatabaseConnector(app.getLock());
+            dbc.requestData("56:" + Integer.toString(p.getPlaylistId()));
+        }
     }
 
 }

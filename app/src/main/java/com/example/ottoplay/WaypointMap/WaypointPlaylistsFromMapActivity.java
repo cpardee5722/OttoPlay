@@ -38,6 +38,13 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
 
     private ReentrantLock connectorLock;
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +161,7 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
             }
             queryResults.clear();
 
+            currentUser.addToFriendList(wp.getOwnerUserId());
             t = new Thread(new AddFriendThread());
             t.start();
             t.join();
@@ -249,7 +257,16 @@ public class WaypointPlaylistsFromMapActivity extends AppCompatActivity {
         for (int i = 0; i < queryResults.size(); i++) {
             playlistIds.put(queryResults.get(i).get(1), new Pair<Integer,String>(Integer.parseInt(queryResults.get(i).get(0)), queryResults.get(i).get(2)));
             playlistNames.add(queryResults.get(i).get(1));
-            wp.addPlaylist(new Playlist(queryResults.get(i).get(2), Integer.parseInt(queryResults.get(i).get(0)), queryResults.get(i).get(1)));
+            Playlist p = new Playlist(queryResults.get(i).get(2), Integer.parseInt(queryResults.get(i).get(0)), queryResults.get(i).get(1));
+            ArrayList<Playlist> pls = wp.getAllPlaylists();
+            boolean contains = false;
+            for (int j = 0; j < pls.size(); j++) {
+                if (pls.get(j).getPlaylistId() == p.getPlaylistId()) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) wp.addPlaylist(p);
         }
 
         queryResults.clear();

@@ -42,6 +42,14 @@ public class ListItemDetail extends AppCompatActivity {
     }
     private Button btnDemo;
     private androidx.appcompat.widget.Toolbar toolbar;
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listitem);
@@ -84,6 +92,7 @@ public class ListItemDetail extends AppCompatActivity {
                 FutureTask a;
 //                Fetching userid
                 app = (MyApplication)getApplication();
+                app.getUser().removeFriend(Integer.parseInt(friend_id.get(position)));
                 String id = Integer.toString(app.getUserId());
                 a = new FutureTask<>(new DatabaseConnThread("32:"+id+","+friend_id.get(position)));
                 Thread t = new Thread(a);

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile.FriendsActivity">
+
+
+    <EditText
+        android:id="@+id/updateStatusHere"
+        android:layout_width="331dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+
+        android:hint="Enter a status.."
+        android:selectAllOnFocus="true"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.637"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-72dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="321dp"
+                android:layout_height="130dp"
+                android:text="Visited 10 new Waypoints this week"
+                tools:layout_editor_absoluteX="51dp"
+                tools:layout_editor_absoluteY="500dp"
+                tools:text="Vistied 10 new Waypoints this week" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="56dp"
+                android:layout_height="43dp"
+                app:srcCompat="@android:drawable/sym_def_app_icon"
+                tools:layout_editor_absoluteX="44dp"
+                tools:layout_editor_absoluteY="441dp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="146dp"
+                android:layout_height="28dp"
+                android:text="Sawyer Peralta"
+                tools:layout_editor_absoluteX="116dp"
+                tools:layout_editor_absoluteY="448dp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="292dp"
+                android:layout_height="32dp"
+                android:text="Added Two playlists 'College Place'"
+                tools:layout_editor_absoluteX="58dp"
+                tools:layout_editor_absoluteY="358dp"
+                tools:text="Added Two playlists 'College Place' " />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="50dp"
+                    android:layout_height="41dp"
+                    app:srcCompat="@android:drawable/sym_def_app_icon"
+                    tools:layout_editor_absoluteX="51dp"
+                    tools:layout_editor_absoluteY="299dp" />
+
+                <TextView
+                android:id="@+id/textView6"
+                android:layout_width="146dp"
+                android:layout_height="28dp"
+                android:text="Mia Pennington"
+                tools:layout_editor_absoluteX="123dp"
+                tools:layout_editor_absoluteY="306dp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="146dp"
+                android:layout_height="28dp"
+                android:text="Joel Hayes"
+                tools:layout_editor_absoluteX="123dp"
+                tools:layout_editor_absoluteY="157dp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="295dp"
+                android:layout_height="58dp"
+                android:text="Now friends with John Doe, Jane Doe and 5 others"
+                tools:layout_editor_absoluteX="51dp"
+                tools:layout_editor_absoluteY="218dp"
+                tools:text="is now friends with John Doe, Jane Doe and 5 others" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="56dp"
+                android:layout_height="43dp"
+                app:srcCompat="@android:drawable/sym_def_app_icon"
+                tools:layout_editor_absoluteX="51dp"
+                tools:layout_editor_absoluteY="150dp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="145dp"
+                android:layout_height="37dp"
+                android:text="Update Status"
+                tools:layout_editor_absoluteX="146dp"
+                tools:layout_editor_absoluteY="84dp" />
+            </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

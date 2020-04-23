@@ -46,6 +46,14 @@ public class MyPlaylists extends AppCompatActivity  {
     private ListView lv;
     ArrayList<String> playlist_name = new ArrayList<String>();
     private androidx.appcompat.widget.Toolbar toolbar;
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(this.getIntent());
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_playlists);
@@ -96,6 +104,8 @@ public class MyPlaylists extends AppCompatActivity  {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Playlist p = user.getSyncedPlaylists().get(position);
                 app.setPlaylist(p);
+                app.setSharedPlaylist(false);
+                app.setHidePlaylistDelete(false);
                 startActivity(new Intent(MyPlaylists.this,PlaylistSongsActivity.class));
             }
         });

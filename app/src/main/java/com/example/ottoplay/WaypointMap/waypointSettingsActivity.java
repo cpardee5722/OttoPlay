@@ -130,7 +130,6 @@ public class waypointSettingsActivity extends AppCompatActivity {
             ((RadioButton) editingSelection.getChildAt(0)).setEnabled(false);
             ((RadioButton) editingSelection.getChildAt(1)).setEnabled(false);
             ((RadioButton) editingSelection.getChildAt(2)).setEnabled(false);
-
         }
 
         //Visibility Settings Selection
@@ -324,7 +323,15 @@ public class waypointSettingsActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                swp.addPlaylist(p);
+                ArrayList<Playlist> pls = swp.getAllPlaylists();
+                boolean contains = false;
+                for (int j = 0; j < pls.size(); j++) {
+                    if (pls.get(j).getPlaylistId() == p.getPlaylistId()) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains) swp.addPlaylist(p);
 
                 ListView playlists = (ListView) findViewById(R.id.playlistsScrollBar);
                 playlistList.add(p.getPlaylistName());

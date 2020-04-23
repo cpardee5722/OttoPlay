@@ -38,10 +38,18 @@
         <ListView
             android:id="@+id/myplaylists"
             android:layout_width="match_parent"
-            android:layout_height="634dp"
+            android:layout_height="591dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:entries="@array/sections"></ListView>
+
+        <Button
+            android:id="@+id/removePlaylistButton"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_weight="150"
+            android:onClick="deleteButtonClicked"
+            android:text="Delete"></Button>
 
     </LinearLayout>
 </ScrollView>

@@ -36,6 +36,11 @@
         android:label="Waypoint Map"
         tools:layout="@layout/activity_waypoint_map" />
 
+    <fragment
+        android:id="@+id/nav_playlist"
+        android:name="com.example.ottoplay.ui.spotify.PlaylistsFragment"
+        android:label="My Spotify Playlists" />
+
    <!-- <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.ottoplay.ui.slideshow.SlideshowFragment"

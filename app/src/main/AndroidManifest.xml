@@ -37,6 +37,14 @@
             android:name=".ui.login.SignUp"
             android:label="@string/title_activity_sign_up" />
 
+        <activity
+            android:name=".JavaFiles.SpotifyAuthenticateActivity"
+            android:label="Spotify Authentication" />
+
+        <activity
+            android:name=".JavaFiles.PlaylistActivity"
+            android:label="Playlists" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

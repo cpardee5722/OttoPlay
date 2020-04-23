@@ -67,6 +67,7 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
     private boolean markersInitialized = false;
 
     BitmapDescriptor otherUsersMarkerIcon;
+    BitmapDescriptor friendMarkerIcon;
 
     private HashMap<Marker, Pair<Circle, Waypoint>> waypointMarkers;
     private HashMap<Waypoint.Genre, ArrayList<Marker>> staticWaypointsByGenre;
@@ -238,9 +239,18 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                             if (!dwpMarkers.containsKey(wp.getOwnerUserId())) {
                                 System.out.println("CREATING1");
                                 Marker m = mMap.addMarker(new MarkerOptions().position(wpLoc));
+                                if (currentUser.isFriend(wp.getOwnerUserId())) {
+                                    m.setIcon(friendMarkerIcon);
+                                }
+                                else {
+                                    m.setIcon(otherUsersMarkerIcon);
+                                }
                                 m.setIcon(otherUsersMarkerIcon);
                                 Circle c = mMap.addCircle(new CircleOptions().center(wpLoc));
-                                c.setStrokeColor(Color.RED);
+                                if (currentUser.isFriend(wp.getOwnerUserId())) {
+                                    c.setStrokeColor(Color.BLUE);
+                                }
+                                else c.setStrokeColor(Color.RED);
                                 c.setRadius(10);
                                 c.setStrokeWidth(4);
                                 dwpMarkers.put(wp.getOwnerUserId(), m);
@@ -261,10 +271,20 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
                                     && currentUser.isFriend(wp.getOwnerUserId()))) {
                                 dwpMarkers.get(wp.getOwnerUserId()).setVisible(true);
                                 waypointMarkers.get(dwpMarkers.get(wp.getOwnerUserId())).first.setVisible(true);
+
                             }
                             else {
                                 dwpMarkers.get(wp.getOwnerUserId()).setVisible(false);
                                 waypointMarkers.get(dwpMarkers.get(wp.getOwnerUserId())).first.setVisible(false);
+                            }
+
+                            if (currentUser.isFriend(wp.getOwnerUserId())) {
+                                dwpMarkers.get(wp.getOwnerUserId()).setIcon(friendMarkerIcon);
+                                waypointMarkers.get(dwpMarkers.get(wp.getOwnerUserId())).first.setStrokeColor(Color.BLUE);
+                            }
+                            else {
+                                dwpMarkers.get(wp.getOwnerUserId()).setIcon(otherUsersMarkerIcon);
+                                waypointMarkers.get(dwpMarkers.get(wp.getOwnerUserId())).first.setStrokeColor(Color.RED);
                             }
                         }
 
@@ -419,6 +439,7 @@ public class WaypointMapActivity extends AppCompatActivity implements OnMapReady
         userCircle.setStrokeWidth(4);
 
         otherUsersMarkerIcon = bitmapDescriptorFromVector(this, R.drawable.ic_accessibility_new_other_24px);
+        friendMarkerIcon = bitmapDescriptorFromVector(this, R.drawable.ic_accessibility_new_friend_24px);
     }
 
     //Based on https://stackoverflow.com/questions/42365658/custom-marker-in-google-maps-in-android-with-vector-asset-icon
